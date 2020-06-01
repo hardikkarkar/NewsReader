@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.newsreader.R;
 import com.example.newsreader.model.Article;
 
@@ -42,11 +44,14 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
 
         Glide.with(mContext)
                 .load(list.get(position).getUrlToImage())
+                .thumbnail(0.3f)
                 .centerCrop()
-                .skipMemoryCache(false)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.default_image)
                 .into(holder.imageView);
 
         holder.tVTime.setText(list.get(position).getPublishedAt());
+        holder.tVAuthor.setText(list.get(position).getAuthor());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,11 +71,13 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         ImageView imageView;
         TextView textView;
         TextView tVTime;
+        TextView tVAuthor;
          MyViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView);
             textView = itemView.findViewById(R.id.textView);
             tVTime = itemView.findViewById(R.id.tVTime);
+             tVAuthor = itemView.findViewById(R.id.tVAuthor);
         }
     }
 
